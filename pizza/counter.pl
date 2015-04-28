@@ -2,7 +2,6 @@
 use strict;
 use Irssi;
 use vars qw($VERSION %IRSSI);
-use Data::Dumper;
 
 $VERSION = "1.0";
 %IRSSI = ( 
