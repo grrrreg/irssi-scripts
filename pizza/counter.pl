@@ -54,7 +54,7 @@ sub handle_cmd ($$$$$) {
         if ($address ~~ @admins) {
                 foreach (Irssi::channels()) {
                         if ($current_topic = check_channel($_, $target)) {
-                            last;
+							last;
                         }   
                 }   
         }   
