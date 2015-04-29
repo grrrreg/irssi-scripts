@@ -22,22 +22,18 @@ my @admins = (
 
 my $running = 0;
 
-sub check_channel ($$) {
-	my ($channel, $target_channel) = @_; 
-
-	if ($channel->{name} eq $target_channel) {
-		return $channel->{topic};
-	}   
-
-	return 0;
-}
-
-sub set_new_topic ($$$) {
-	my ($channel, $topic, $server) = @_; 
+sub set_new_topic ($$$$) {
+	my ($channel, $topic, $server, $msg) = @_; 
 	my ($count) = $topic =~ /:\ (\d+)/;
-	my $new_count = $count + 1;
-	$topic =~ s/$count/$new_count/;
+	my $new_count;
 
+	if ($msg eq "pizza--") {
+		$new_count = $count - 1;
+	} elsif ($msg eq "pizza++") {
+		$new_count = $count + 1;
+	}
+
+	$topic =~ s/$count/$new_count/;
 	$server->command("topic $channel $topic");
 }
 
@@ -45,22 +41,21 @@ sub handle_cmd ($$$$$) {
 	my ($server, $msg, $nick, $address, $target) = @_; 
 	my $current_topic;
 
-	if ($msg ne "pizza++" || $running == 1) {
+	if (($msg ne "pizza++" && $msg ne "pizza--") || $running == 1) {
 		return 0;
-	}   
+	}
 
 	$running = 1;
 
 	if ($address ~~ @admins) {
 		foreach (Irssi::channels()) {
-			if ($current_topic = check_channel($_, $target)) {
-				last;
-			}   
-		}   
-	}   
+			if ($current_topic = check_channel($_, $target)) {last;
+                        }   
+                }   
+        }   
 
 	if ($current_topic) {
-		set_new_topic($target, $current_topic, $server);
+		set_new_topic($target, $current_topic, $server, $msg);
 	}   
 
 	$running = 0;
