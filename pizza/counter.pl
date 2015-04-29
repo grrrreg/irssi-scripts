@@ -22,6 +22,16 @@ my @admins = (
 
 my $running = 0;
 
+sub check_channel ($$) {
+	my ($channel, $target_channel) = @_; 
+
+	if ($channel->{name} eq $target_channel) {
+        	return $channel->{topic};
+        }   
+
+	return 0;
+}
+
 sub set_new_topic ($$$$) {
 	my ($channel, $topic, $server, $msg) = @_; 
 	my ($count) = $topic =~ /:\ (\d+)/;
