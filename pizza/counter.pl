@@ -16,7 +16,8 @@ $VERSION = "1.0";
 my @admins = ( 
 	'Mike@snoonet/admin/Netsplit',
 	'qdwach@user/Qdwach',
-	'brutal_n00d@user/BrutalN00dle'
+	'brutal_n00d@user/BrutalN00dle',
+	'banjax@shreddit.more.like.speddit.amirite'
 );
 
 my $running = 0;
