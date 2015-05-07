@@ -22,6 +22,8 @@ my @admins = (
 
 my $running = 0;
 
+my $topic_handle="Pizza counter:";
+
 sub check_channel ($$) {
 	my ($channel, $target_channel) = @_; 
 
@@ -34,7 +36,7 @@ sub check_channel ($$) {
 
 sub set_new_topic ($$$$) {
 	my ($channel, $topic, $server, $msg) = @_; 
-	my ($n, $count) = $topic =~ /(Pizza Counter: )(\d+)/;
+	my ($n, $count) = $topic =~ /($topic_handle) (\d+)/;
 	my $new_count;
 
 	if ($msg eq "pizza--") {
@@ -43,7 +45,7 @@ sub set_new_topic ($$$$) {
 		$new_count = $count + 1;
 	}
 
-	$topic =~ s/Pizza Counter: $count/Pizza Counter: $new_count/;
+	$topic =~ s/Pizza Counter: $count/$topic_handle $new_count/;
 	$server->command("topic $channel $topic");
 }
 
